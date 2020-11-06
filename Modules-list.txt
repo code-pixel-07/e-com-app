@@ -1,0 +1,6 @@
+#Modules that are used in this project
+
+nodemon
+express-handlebars
+express-fileUpload
+mongodb
