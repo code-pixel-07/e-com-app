@@ -4,3 +4,11 @@ nodemon
 express-handlebars
 express-fileUpload
 mongodb
+
+// Changes made in the 2nd commit
+added bootstrap 
+modified default stylesheet
+created homepage as in index.hbs
+modified layout.hbs 
+used express handlebar module.
+configured partials
