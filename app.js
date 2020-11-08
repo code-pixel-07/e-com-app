@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs = require('express-handlebars')
 const fileUpload = require('express-fileupload')
+const db = require('./config/dbConnection')
+
 
 var adminRouter = require('./routes/admin');
 var usersRouter = require('./routes/users');
@@ -29,11 +31,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(fileUpload())
+app.use(fileUpload());
 
+// code to start database connection
+db.dbConnect((err) => {
+  if(!err) {
+    console.log('Connection established with Database successfully');
+  } else {
+    console.log('Failed to establish connection with Database' + err);
+  }
+});
 
-app.use('/admin', adminRouter);
 app.use('/', usersRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
