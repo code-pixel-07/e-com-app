@@ -17,7 +17,7 @@ module.exports.dbConnect = (callback) => {
         3)callback()
     */
     // Here the above function(callback) has access to err and data ie; callback(err, data)     
-    mongo.connect(url, (err, data) => {
+    mongo.connect(url, { useUnifiedTopology: true }, (err, data) => {
         if(err) {
             return callback(err);
         } else {

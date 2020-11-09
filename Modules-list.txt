@@ -4,3 +4,5 @@ nodemon
 express-handlebars
 express-fileUpload
 mongodb
+bcrypt
+express-session
