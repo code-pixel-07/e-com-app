@@ -20,6 +20,8 @@
                     <td>{{this.category}}</td>
                     <td>{{this.description}}</td>
                     <td><img src="/images/product_images/{{this._id}}.jpg" alt="unable to display image" width="80px" height="auto"></td>
+                    <td><a href="/admin/edit-product/{{this._id}}" class="btn btn-warning">Edit</a></td>
+                    <td><a href="/admin/delete-product/{{this._id}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete {{this.name}}')">Delete</a></td>
                 </tr>
                 {{/each}}
             </tbody>

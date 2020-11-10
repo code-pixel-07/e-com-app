@@ -33,7 +33,21 @@ router.post('/add-product', (req, res) => {
       }
     })
   })
-  res.send('Product added successfully')
+  // res.send('Product added successfully')
+  res.redirect('/admin')
+})
+
+router.get('/delete-product/:product_id', (req, res) => {
+  let productId = req.params.product_id
+  console.log(productId)
+  productHelpers.deleteProduct(productId).then((result) => {
+    if(result) {
+      res.redirect('/admin')
+      console.log('Product Deleted Successfully')
+    } else {
+      console.log('Unable to delete product');
+    }
+  })
 })
 
 

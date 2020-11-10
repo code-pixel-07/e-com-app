@@ -3,6 +3,11 @@
         <h1 class="mt-5 text-success">Welcome Back</h1>
         <div class="col-md-6  mt-5">
             <form action="/login" method="POST">
+            {{#if loginErr}}
+            <div class="alert alert-danger" role="alert">
+                {{errMessage}}
+            </div>
+            {{/if}}
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" class="form-control" id="exampleInputEmail1" name="email">

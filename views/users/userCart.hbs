@@ -1,0 +1,35 @@
+<section id="cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <table class="table">
+                    {{!-- {{#with Products}} --}}
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Product image</th>
+                        </tr>
+                    </thead>
+                    {{!-- <tbody>
+                                {{#each Products}}
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.category}}</td>
+                                    <td>{{this.description}}</td>
+                                    <td><img src="/images/product_images/{{this._id}}.jpg" alt="unable to display image" width="80px"
+                                            height="auto"></td>
+                                </tr>
+                                {{/each}}
+                            </tbody> --}}
+                </table>
+            </div>
+            <div class="col-md-2">
+                <h5>Items in cart 0</h5>
+            </div>
+        </div>
+    </div>
+</section>
