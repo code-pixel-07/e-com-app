@@ -38,6 +38,31 @@ module.exports = {
                 productIsDeleted = true
                 resolve(productIsDeleted)
         })
-    }
+    },
 
+    getProductInfo: (productIdInfo) => {
+        // console.log(productIdInfo);
+        return new Promise((resolve, reject) => {
+            db.getdbState().collection(collections.PRODUCT_COLLECTION_NAME).findOne({_id:objectId(productIdInfo)}).then((result) => {
+                resolve(result)
+            })
+        })
+    },
+
+    updateProduct: (productIdInfo, productInfo) => {
+        return new Promise((resolve, reject) => {
+            db.getdbState().collection(collections.PRODUCT_COLLECTION_NAME)
+            .updateOne(
+                {_id: objectId(productIdInfo)},
+                {$set: {
+                    name: productInfo.name,
+                    category: productInfo.category,
+                    price: productInfo.price,
+                    description: productInfo.description,
+                }}
+            ).then((result) => {
+                resolve(result)
+            })
+        })
+    }
 }

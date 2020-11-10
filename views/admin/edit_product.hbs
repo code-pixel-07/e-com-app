@@ -1,0 +1,48 @@
+<section>
+    <div class="container mt-4">
+        {{#with productInfo}}
+        <div class="row">
+            <div class="col-md-8">
+                <form action="/admin/edit-product/{{_id}}" method="POST" enctype="multipart/form-data">
+                    <h2 class="my-3 text-center">Product Customisation</h2>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" value="{{name}}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <input type="text" name="category" id="category" value="{{category}}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price</label>
+                        <input type="number" name="price" id="price" value="{{price}}" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" name="description" id="description" value="{{description}}"
+                            class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image</label><br>
+                        <input type="file" name="image" id="image" onchange="viewImageThumbnail(event)">
+                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <img src="/images/product_images/{{_id}}.jpg" style="width: 100%; height: auto;" id="imgThumbnail">
+            </div>
+        </div>
+        {{/with}}
+    </div>
+</section>
+
+<script type="text/javascript">
+    let viewImageThumbnail = (event) => {
+        /*-- first we need to select the img 
+            then we need to specify the path of that image by creating a url for it
+            here we are specifing files[0] because we are only uploading a single file
+        --*/
+        document.getElementById('imgThumbnail').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>
