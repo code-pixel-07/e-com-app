@@ -7,24 +7,23 @@
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Description</th>
                             <th scope="col">Product image</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
                         </tr>
                     </thead>
-                    {{!-- <tbody>
-                                {{#each Products}}
+                    <tbody>
+                                {{#each productInfo}}
                                 <tr>
                                     <th scope="row">1</th>
+                                    <td><img src="/images/product_images/{{this._id}}.jpg" alt="unable to display image" width="80px" height="auto"></td>
                                     <td>{{this.name}}</td>
-                                    <td>{{this.category}}</td>
-                                    <td>{{this.description}}</td>
-                                    <td><img src="/images/product_images/{{this._id}}.jpg" alt="unable to display image" width="80px"
-                                            height="auto"></td>
+                                    <td><a href="#" class="btn btn-primary">-</a> 1 <a href="#" class="btn btn-primary">+</a></td>
+                                    <td>{{this.price}}</td>
                                 </tr>
                                 {{/each}}
-                            </tbody> --}}
+                            </tbody>
                 </table>
             </div>
             <div class="col-md-2">

@@ -79,8 +79,12 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/cart', verifyLogin, (req, res, next) => {
-    res.render('users/userCart')
+router.get('/cart', verifyLogin,async (req, res, next) => {
+  // to display the product in a new page or the cart page ... we first need to get data from the database.
+  let productInfo = await userHelpers.getCartItems(req.session.userInfo._id)
+  // here productInfo will have the finalCartItem
+  console.log(productInfo);
+  res.render('users/userCart', {productInfo})
 })
 
 router.get('/cart-items/:product_id', verifyLogin, (req, res) => {
