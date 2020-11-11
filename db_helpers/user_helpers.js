@@ -137,5 +137,21 @@ module.exports = {
 
             resolve(cartItem[0].finalCartItem)
         })
+    },
+
+    getCartItemCount: (userId) => {
+        // here we need to get the product info [the number of products in that product_item array] of a user from the cart collection
+        return new Promise(async (resolve, reject) => {
+            // before that we need to check if that user has a cart
+            // initially the cart count is set to 0
+            let cartItemCount = 0
+            let userCart =await db.getdbState().collection(collections.CART_COLLECTION_NAME).findOne({user_Id: objectId(userId)})
+            if(userCart) {
+                cartItemCount = userCart.product_item.length
+            } else {
+                cartItemCount = 0
+            }
+            resolve(cartItemCount)
+        })
     }
 }

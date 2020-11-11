@@ -14,18 +14,32 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET users listing. */
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // to change/ update the content in the user page or homepage if the use has loggedIn, we need to first check if the user has loggedIn successfully
   let userLoginStatus = req.session.userInfo;
   let checkLoggedInStatus = req.session.loggedIn;
   // changeLoggedInStatus = false
   // Here checkUserLoginStatus will be null if the user has not loggedIn ... else it will have the value; And we can pass this value to the render function so that we can extract required data from it to display it on the homepage.
-  // console.log(`session info : ${userLoginStatus}`);
+  
+  // console.log(`session info : ${userLoginStatus}`); 
+
+  /* code for the cart-item-count*/
+  /* Here userLoginStatus is showing undefined because we have not yet checked the session of the user
+    ie; in other words if the user has already loggedin
+  */
+  let cartItemCount = null
+  // so now the process will based on users session
+  if(req.session.userInfo) {
+    // here we now need to check if the user has anything in his cart while loading the homepage.
+    // now we will pass the userId because we can use it to find the items in cart of that user 
+    cartItemCount = await userHelpers.getCartItemCount(userLoginStatus._id)
+  }
   productHelpers.getAllProducts().then((Products) => {
-    res.render('users/homepage', {Products, userLoginStatus, checkLoggedInStatus})
+    res.render('users/homepage', {Products, userLoginStatus, checkLoggedInStatus, cartItemCount})
   }).catch((err) => {
     console.log(err);
   });
+
 });
 
 router.get('/signup', (req, res) => {
@@ -79,14 +93,18 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/cart', verifyLogin,async (req, res, next) => {
+router.get('/cart', verifyLogin, async (req, res, next) => {
   // to display the product in a new page or the cart page ... we first need to get data from the database.
   let productInfo = await userHelpers.getCartItems(req.session.userInfo._id)
+  req.session.loggedIn = true
   // here productInfo will have the finalCartItem
   console.log(productInfo);
-  res.render('users/userCart', {productInfo})
+  // console.log(req.session.userInfo);
+  let userLoginStatus = req.session.userInfo;
+  res.render('users/userCart', { productInfo, userLoginStatus})
 })
 
+// since we are using ajax for this process we dont need to call verifyLogin middleware anymore.
 router.get('/cart-items/:product_id', verifyLogin, (req, res) => {
   let productId = req.params.product_id
   // console.log(req.session.userInfo);
@@ -96,8 +114,10 @@ router.get('/cart-items/:product_id', verifyLogin, (req, res) => {
     for this purpose we need to pass the middleware to the get request to /cart-items
     so even if a user logs out from an account that's already loggedin ... the user will be redirected to the login page.
   */
+  console.log("api call")
   userHelpers.addToCart(productId, req.session.userInfo._id).then(() => {
-    res.redirect('/')
+    // res.redirect('/')
+    res.json({status: true})
   })
 })
 
