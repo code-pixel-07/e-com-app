@@ -14,13 +14,13 @@ const verifyLogin = (req, res, next) => {
 }
 
 /* GET users listing. */
-router.get('/', (req, res, next) => {
+router.get('/', (req, res) => {
   // to change/ update the content in the user page or homepage if the use has loggedIn, we need to first check if the user has loggedIn successfully
   let userLoginStatus = req.session.userInfo;
   let checkLoggedInStatus = req.session.loggedIn;
   // changeLoggedInStatus = false
   // Here checkUserLoginStatus will be null if the user has not loggedIn ... else it will have the value; And we can pass this value to the render function so that we can extract required data from it to display it on the homepage.
-  console.log(`session info : ${userLoginStatus}`);
+  // console.log(`session info : ${userLoginStatus}`);
   productHelpers.getAllProducts().then((Products) => {
     res.render('users/homepage', {Products, userLoginStatus, checkLoggedInStatus})
   }).catch((err) => {
@@ -35,8 +35,12 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res) => {
   userHelpers.doSignup(req.body).then((response) => {
     console.log(response);
+    // if user had signed up ... that means he has also in other words loggedIn
+    req.session.loggedIn = true
+    req.session.userInfo = response
+    res.redirect('/')
   })
-  res.send('<h1>Account created successfully</h1>')
+  // res.send('<h1>Account created successfully</h1>')
 })
 
 router.get('/login', (req, res) => {
@@ -77,6 +81,20 @@ router.get('/logout', (req, res) => {
 
 router.get('/cart', verifyLogin, (req, res, next) => {
     res.render('users/userCart')
+})
+
+router.get('/cart-items/:product_id', verifyLogin, (req, res) => {
+  let productId = req.params.product_id
+  // console.log(req.session.userInfo);
+  // the first parameter passes the info of the product to be added to the cart
+  // the second parameter is to pass the unique id of the user
+  /* here userInfo will throw an error if we forgot to verify that the user's session exist or in short the user has logged in. 
+    for this purpose we need to pass the middleware to the get request to /cart-items
+    so even if a user logs out from an account that's already loggedin ... the user will be redirected to the login page.
+  */
+  userHelpers.addToCart(productId, req.session.userInfo._id).then(() => {
+    res.redirect('/')
+  })
 })
 
 router.get('/orders', (req, res) => {
