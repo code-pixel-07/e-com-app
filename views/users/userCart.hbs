@@ -17,11 +17,13 @@
                         {{#each productInfo}}
                         <tr>
                             <th scope="row">1</th>
+                            {{#each this.finalCartItem}}
                             <td><img src="/images/product_images/{{this._id}}.jpg" alt="unable to display image"
                                     width="80px" height="auto"></td>
                             <td>{{this.name}}</td>
-                            <td><a href="#" class="btn btn-primary mr-3">-</a> 1 <a href="#"
-                                    class="btn btn-primary ml-3">+</a></td>
+                            {{/each}}
+                            <td><button class="btn btn-primary mr-3">-</button> {{this.quantity}} <button
+                                    class="btn btn-primary ml-3">+</button></td>
                             <td>{{this.price}}</td>
                             <td><a href="#" class="btn btn-danger"
                                     onclick="return confirm('Are you sure to remove {{this.name}} from the cart')">Remove</a>
